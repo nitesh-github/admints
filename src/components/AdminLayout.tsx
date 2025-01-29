@@ -3,16 +3,27 @@ import Sidebar from "./Sidebar"
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./style.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../store/store";
+import { logout } from "../store/authSlice";
 interface AdminLayoutClassProps {
     children: ReactNode;
 }
 const AdminLayout: React.FC<AdminLayoutClassProps> = ({ children }) => {
-
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const user = useSelector((state:RootState) => state.auth.user);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
+
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/login');
+      };
 
     return (
         <>
@@ -44,7 +55,7 @@ const AdminLayout: React.FC<AdminLayoutClassProps> = ({ children }) => {
                             aria-expanded={isOpen ? 'true' : 'false'}
                             onClick={toggleDropdown}
                         >
-                            Nitesh Testing Name
+                            {user?.name}
                         </button>
                         <ul
                             className={`dropdown-menu ${isOpen ? 'show' : ''}`}
@@ -52,8 +63,8 @@ const AdminLayout: React.FC<AdminLayoutClassProps> = ({ children }) => {
                         >
                             <li><Link className="dropdown-item" to="#">Settings</Link></li>
                             <li><Link className="dropdown-item" to="#">Messages</Link></li>
-                            <li><Link className="dropdown-item" to="#">Sign out</Link></li>
-                            
+                            <li><Link className="dropdown-item" to="#" onClick={handleLogout}>Sign out</Link></li>
+
                         </ul>
                     </div>
                 </div>
@@ -62,146 +73,23 @@ const AdminLayout: React.FC<AdminLayoutClassProps> = ({ children }) => {
             <div className="container-fluid">
                 <div className="row">
                     <Sidebar />
-                    <main className="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
-
-
-
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item">
-                                    <Link to="/">Home</Link>
-                                </li>
-                                <li className="breadcrumb-item active" aria-current="page">Overview</li>
-                            </ol>
-                        </nav>
-                        <h1 className="h2">Dashboard</h1>
-                        <p>This is the homepage of a simple admin interface which is part of a tutorial written on Themesberg</p>
-                        <div className="row my-4">
-                            <div className="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                                <div className="card">
-                                    <h5 className="card-header">Customers</h5>
-                                    <div className="card-body">
-                                        <h5 className="card-title">345k</h5>
-                                        <p className="card-text">Feb 1 - Apr 1, United States</p>
-                                        <p className="card-text text-success">18.2% increase since last month</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12 col-md-6 mb-4 mb-lg-0 col-lg-3">
-                                <div className="card">
-                                    <h5 className="card-header">Revenue</h5>
-                                    <div className="card-body">
-                                        <h5 className="card-title">$2.4k</h5>
-                                        <p className="card-text">Feb 1 - Apr 1, United States</p>
-                                        <p className="card-text text-success">4.6% increase since last month</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12 col-md-6 mb-4 mb-lg-0 col-lg-3">
-                                <div className="card">
-                                    <h5 className="card-header">Purchases</h5>
-                                    <div className="card-body">
-                                        <h5 className="card-title">43</h5>
-                                        <p className="card-text">Feb 1 - Apr 1, United States</p>
-                                        <p className="card-text text-danger">2.6% decrease since last month</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12 col-md-6 mb-4 mb-lg-0 col-lg-3">
-                                <div className="card">
-                                    <h5 className="card-header">Traffic</h5>
-                                    <div className="card-body">
-                                        <h5 className="card-title">64k</h5>
-                                        <p className="card-text">Feb 1 - Apr 1, United States</p>
-                                        <p className="card-text text-success">2.5% increase since last month</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12 col-xl-8 mb-4 mb-lg-0">
-                                <div className="card">
-                                    <h5 className="card-header">Latest transactions</h5>
-                                    <div className="card-body">
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Order</th>
-                                                        <th scope="col">Product</th>
-                                                        <th scope="col">Customer</th>
-                                                        <th scope="col">Total</th>
-                                                        <th scope="col">Date</th>
-                                                        <th scope="col"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th scope="row">17371705</th>
-                                                        <td>Volt Premium Bootstrap 5 Dashboard</td>
-                                                        <td>johndoe@gmail.com</td>
-                                                        <td>€61.11</td>
-                                                        <td>Aug 31 2020</td>
-                                                        <td><Link to="">View</Link></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">17370540</th>
-                                                        <td>Pixel Pro Premium Bootstrap UI Kit</td>
-                                                        <td>jacob.monroe@company.com</td>
-                                                        <td>$153.11</td>
-                                                        <td>Aug 28 2020</td>
-                                                        <td><Link to="">View</Link></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">17371705</th>
-                                                        <td>Volt Premium Bootstrap 5 Dashboard</td>
-                                                        <td>johndoe@gmail.com</td>
-                                                        <td>€61.11</td>
-                                                        <td>Aug 31 2020</td>
-                                                        <td><Link to="">View</Link></td>
-                                                    </tr>
-                                                    
-                                                   
-                                                    <tr>
-                                                        <th scope="row">17370540</th>
-                                                        <td>Pixel Pro Premium Bootstrap UI Kit</td>
-                                                        <td>jacob.monroe@company.com</td>
-                                                        <td>$153.11</td>
-                                                        <td>Aug 28 2020</td>
-                                                        <td><Link to="">View</Link></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12 col-xl-4">
-                                <div className="card">
-                                    <h5 className="card-header">Traffic last 6 months</h5>
-                                    <div className="card-body">
-                                        <div id="traffic-chart"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <footer className="pt-5 d-flex justify-content-between">
-                            <span>Copyright © 2019-2020 <a href="https://themesberg.com">Themesberg</a></span>
-                            <ul className="nav m-0">
-                                <li className="nav-item">
-                                    <Link className="nav-link text-secondary" to="#">Privacy Policy</Link>
-                                </li>
-                                <li className="nav-item">
-                                <Link className="nav-link text-secondary" to="#">Terms and conditions</Link>
-                                </li>
-                                <li className="nav-item">
-                                <Link className="nav-link text-secondary" to="#">Contact</Link>
-                                </li>
-                            </ul>
-                        </footer>
-                    </main>
+                    <main className="col-md-9 offset-md-3 col-lg-10 offset-lg-2 px-md-4 py-4">
+                    {children}
+                    <footer className="pt-5 d-flex justify-content-between">
+    <span>Copyright © 2019-2020 <a href="https://themesberg.com">Themesberg</a></span>
+    <ul className="nav m-0">
+        <li className="nav-item">
+            <Link className="nav-link text-secondary" to="#">Privacy Policy</Link>
+        </li>
+        <li className="nav-item">
+            <Link className="nav-link text-secondary" to="#">Terms and conditions</Link>
+        </li>
+        <li className="nav-item">
+            <Link className="nav-link text-secondary" to="#">Contact</Link>
+        </li>
+    </ul>
+</footer>
+</main>
                 </div>
             </div>
         </>

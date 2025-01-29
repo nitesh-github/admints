@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
+import UserList from './pages/users/UserList';
 
 function App() {
   return (
@@ -30,6 +31,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/user-list"
+          element={
+            <ProtectedRoute>
+              <UserList />
+            </ProtectedRoute>
+          }
+        />
+         
       </Routes>
     </Router>
   );

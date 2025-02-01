@@ -134,8 +134,6 @@ const CreateUser = () =>{
             <div className="card-body">
 
             <Form className="shadow p-4 bg-white rounded">
-                    <div className="h4 mb-2 text-center">Sign Up</div>
-
                     {show ? (
                         <Alert
                             className="mb-2"
@@ -219,12 +217,6 @@ const CreateUser = () =>{
                             Please wait...
                         </Button>
                     )}
-                    <div className="d-block justify-content-center">
-                        Already have an account?{" "}
-                        <Link to="/login" className="text-muted px-0">
-                            Sign in
-                        </Link>
-                    </div>
                 </Form>
               
             </div>

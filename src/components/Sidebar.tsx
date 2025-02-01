@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faHome, faUser, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faFileCsv, faHome, faUser, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar: React.FC = () => {
 
@@ -26,6 +26,8 @@ const Sidebar: React.FC = () => {
                 <li><Link className="nav-link" to={`${process.env.REACT_APP_BASE_URL}/user-list`}><FontAwesomeIcon icon={faUser} /> <span className="ms-2">Users List</span></Link></li>
                 <li><Link className="nav-link" to={`${process.env.REACT_APP_BASE_URL}/create-user`}> <FontAwesomeIcon icon={faUserPlus}/>
                 <span className="ms-2">Create User</span></Link></li>
+                <li><Link className="nav-link" to={`${process.env.REACT_APP_BASE_URL}/upload-user-csv`}> <FontAwesomeIcon icon={faFileCsv}/>
+                <span className="ms-2">Upload User CSV</span></Link></li>
               </ul>
             </li>
           </ul>

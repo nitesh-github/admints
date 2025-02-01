@@ -44,9 +44,9 @@ const AdminLayout: React.FC<AdminLayoutClassProps> = ({ children }) => {
 
                 </div>
                 <div className="col-12 col-md-5 col-lg-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0">
-                    <div className="mr-3 mt-1">
+                    {/* <div className="mr-3 mt-1">
                         <a className="github-button" href="https://github.com/themesberg/simple-bootstrap-5-dashboard" data-color-scheme="no-preference: dark; light: light; dark: light;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star /themesberg/simple-bootstrap-5-dashboard">Star</a>
-                    </div>
+                    </div> */}
                     <div className="dropdown">
                         <button
                             className="btn btn-secondary dropdown-toggle"

@@ -10,7 +10,7 @@ const Sidebar: React.FC = () => {
         <div className="position-sticky">
           <ul className="nav flex-column" id="nav_accordion">
             <li className="nav-item">
-              <Link className="nav-link" to="/admin">
+              <Link className="nav-link" to="/dashboard">
               <FontAwesomeIcon icon={faHome}/>
                 <span className="ms-2">Dashboard</span>
               </Link>
@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
               </Link>
               <ul className="submenu collapse" id="customerMenu">
                 <li><Link className="nav-link" to={`${process.env.REACT_APP_BASE_URL}/user-list`}><FontAwesomeIcon icon={faUser} /> <span className="ms-2">Users List</span></Link></li>
-                <li><Link className="nav-link" to={`${process.env.REACT_APP_BASE_URL}/user-list`}> <FontAwesomeIcon icon={faUserPlus}/>
+                <li><Link className="nav-link" to={`${process.env.REACT_APP_BASE_URL}/create-user`}> <FontAwesomeIcon icon={faUserPlus}/>
                 <span className="ms-2">Create User</span></Link></li>
               </ul>
             </li>

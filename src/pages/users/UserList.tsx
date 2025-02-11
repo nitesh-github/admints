@@ -66,11 +66,11 @@ const UserList = () => {
             <div className="card-body">
               <Table>
                 <thead>
-                  <tr><th>ID</th><th>Name</th><th>Email</th><th>Registration Date</th></tr>
+                  <tr><th>SNo</th><th>Name</th><th>Email</th><th>Registration Date</th></tr>
                 </thead>
                 <tbody>
-                  {(!error && resdata?.length) ? (resdata?.map((row) => {
-                    return <tr key={row.id}><td>{row?.id}</td><td>{row?.name}</td><td>{row?.email}</td><td>{row?.createdAt}</td></tr>
+                  {(!error && resdata?.length) ? (resdata?.map((row,i) => {
+                    return <tr key={row.id}><td>{i + 1}</td><td>{row?.name}</td><td>{row?.email}</td><td>{row?.createdAt}</td></tr>
                   })) : (<><tr><td>No data or Something went wrong!</td></tr></>)}
                 </tbody>
               </Table>

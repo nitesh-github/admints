@@ -111,7 +111,7 @@ const Login = () => {
                         <div />
                     )}
                     <Form.Group className="mb-2" controlId="username">
-                        <Form.Label>Username or Email</Form.Label>
+                        <Form.Label>Email</Form.Label>
                         <Form.Control
                             type="text"
                             value={email}

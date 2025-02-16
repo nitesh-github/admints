@@ -147,7 +147,7 @@ const Register = () => {
                         <Form.Control
                             type="text"
                             value={name}
-                            placeholder="Name"
+                            placeholder="Enter Name"
                             onChange={(e) => handleName(e.target.value)}
                             required
                         />

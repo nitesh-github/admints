@@ -26,9 +26,46 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm i
     - run: |
         touch .env
-        echo "${{ secrets.PROD_REACT_ENV_FILE }}"
+        echo "${{ secrets.PROD_REACT_ENV_FILE }}" > .env
     - run: npm run build --if-present
+    - run: |
+        #!/bin/bash
+        set -e  # Exit on any error
+
+        # Define directories
+        SOURCE_DIR="/var/www/html/actions-runner_react/_work/admints/admints/"
+        TEMP_DIR="/var/www/html/actions-runner_react/_work/admints/admints_copy/"
+
+        # Step 1: Create a backup of the application
+        echo "Creating backup of the application..."
+        rsync -av "$SOURCE_DIR" "$TEMP_DIR"
+
+        # Step 2: Navigate to the backup directory
+        cd "$TEMP_DIR" || { echo "Failed to navigate to $TEMP_DIR! Exiting."; exit 1; }
+
+        # Install dependencies
+        echo "Installing dependencies..."
+        npm install
+
+        echo "Dependencies installed successfully!"
+
+        # Step 3: Clean and rebuild the application
+        echo "Removing old build..."
+        rm -rf build
+        echo "Clearing npm cache..."
+        npm cache clean --force
+        echo "Building the application..."
+        npm run build
+
+        # Step 4: Replace the old build with the new one
+        echo "Replacing old build with new build..."
+        cp -Rf build "$SOURCE_DIR"
+
+        # Step 5: Clean up temporary files
+        echo "Cleaning up temporary files..."
+        rm -rf "$TEMP_DIR"
+
+        echo "Application build and deployment completed successfully!"
     - run: sudo pm2 reload all

@@ -46,6 +46,7 @@ const Register = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
+                        console.log(`${process.env?.REACT_APP_API_URL}/api/register`,error);
                         setMessage({ message: error.response.data.message, variant: "danger" });
                     } else {
                         setMessage({ message: "Something went wrong!", variant: "danger" });

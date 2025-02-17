@@ -39,5 +39,4 @@ jobs:
         MAIN_DIR="/var/www/html/actions-runner_react/_work/admints/admints_main/"
         rsync -av --include='build/' --exclude='*' "$SOURCE_DIR" "$MAIN_DIR"
         echo "Removing old build..."
-        rm -rf build
     - run: sudo pm2 reload all

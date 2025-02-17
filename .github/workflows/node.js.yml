@@ -37,6 +37,7 @@ jobs:
          # Define directories
         SOURCE_DIR="/var/www/html/actions-runner_react/_work/admints/admints/"
         MAIN_DIR="/var/www/html/actions-runner_react/_work/admints/admints_main/"
-        rsync -av --include='build/' --exclude='*' "$SOURCE_DIR" "$MAIN_DIR"
+        rsync -av "$SOURCE_DIR/build/" "$MAIN_DIR/build/"
         echo "Removing old build..."
+        rm -rf build
     - run: sudo pm2 reload all

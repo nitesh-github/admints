@@ -114,6 +114,7 @@ const UploadUserCsv = () => {
                                         type="file"
                                         name="file"
                                         placeholder="Name"
+                                        accept=".csv"
                                         onChange={handleFileChange}
                                         required
                                     />

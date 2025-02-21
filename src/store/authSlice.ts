@@ -10,12 +10,14 @@ interface UserDetails {
     isAuthenticated: boolean;
     user: UserDetails | null;
     token : string | null;
+    logintime : number;
   }
 
   const initialState: AuthState = {
     isAuthenticated: false,
     user: null,
     token: null,
+    logintime: 0,
   };
 const authSlice = createSlice({
     name: 'auth',
@@ -25,6 +27,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload?.data;
         state.token = action.payload?.token;
+        state.logintime = Date.now();
       },
       logout: (state) => {
         state.isAuthenticated = false;

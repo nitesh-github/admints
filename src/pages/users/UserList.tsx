@@ -1,9 +1,10 @@
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import ViewMore from "./ViewMore";
 interface User {
   id: number;
   name: string;
@@ -19,8 +20,10 @@ const UserList = () => {
   const [resdata, setData] = useState<User[]>([]);  // For storing fetched data
   const [error, setError] = useState<string | null>();
   const token = useSelector((state: RootState) => state.auth.token);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
- 
+
   const getUserList = useCallback(async () => {
     const configHeaders = {
       headers: {
@@ -47,6 +50,11 @@ const UserList = () => {
     getUserList();
   }, [getUserList]);
 
+  const handleViewMore = (user: User) => {
+    setSelectedUser(user);
+    setShowModal(true);
+  }
+
   return (
     <>
 
@@ -66,11 +74,11 @@ const UserList = () => {
             <div className="card-body">
               <Table>
                 <thead>
-                  <tr><th>SNo</th><th>Name</th><th>Email</th><th>Registration Date</th></tr>
+                  <tr><th>SNo</th><th>Name</th><th>Email</th><th>Registration Date</th><th>View More</th></tr>
                 </thead>
                 <tbody>
-                  {(!error && resdata?.length) ? (resdata?.map((row,i) => {
-                    return <tr key={row.id}><td>{i + 1}</td><td>{row?.name}</td><td>{row?.email}</td><td>{row?.createdAt}</td></tr>
+                  {(!error && resdata?.length) ? (resdata?.map((row, i) => {
+                    return <tr key={row.id}><td>{i + 1}</td><td>{row?.name}</td><td>{row?.email}</td><td>{row?.createdAt}</td><td><Button variant="primary" onClick={() => handleViewMore(row)}>View More</Button></td></tr>
                   })) : (<><tr><td>No data or Something went wrong!</td></tr></>)}
                 </tbody>
               </Table>
@@ -78,6 +86,12 @@ const UserList = () => {
           </div>
         </div>
 
+        {/* View More Modal */}
+        <ViewMore
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          user={selectedUser}
+        />
       </div>
 
     </>

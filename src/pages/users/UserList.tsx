@@ -5,15 +5,21 @@ import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import ViewMore from "./ViewMore";
+import ReactPaginate from "react-paginate";
+import { format } from "date-fns";
 interface User {
-  id: number;
+  _id: string;
   name: string;
   email: string;
   createdAt: string;
 }
 
+interface ApiData {
+  users: User[];
+  totalCount: number;
+}
 interface ApiResponse {
-  data: User[];
+  data: ApiData;
 }
 
 const UserList = () => {
@@ -22,8 +28,10 @@ const UserList = () => {
   const token = useSelector((state: RootState) => state.auth.token);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageCount, setpageCount] = useState(0);
 
-
+  const handlePageClick = (event: { selected: number }) => setCurrentPage(event.selected);
   const getUserList = useCallback(async () => {
     const configHeaders = {
       headers: {
@@ -36,15 +44,17 @@ const UserList = () => {
       return;
     }
     try {
-      const response = await axios.get<ApiResponse>(`${process.env.REACT_APP_API_URL}/api/get-user-list`, configHeaders);
-      setData(response?.data?.data);
+      const response = await axios.get<ApiResponse>(`${process.env.REACT_APP_API_URL}/api/get-user-list?page=${currentPage}&limit=10`, configHeaders);
+      setData(response?.data?.data?.users);
+      let totalPageCount = Math.ceil(response?.data?.data?.totalCount / 10);
+      setpageCount(totalPageCount);
       setError(null);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
       }
     }
-  }, [token]);
+  }, [token, currentPage]);
 
   useEffect(() => {
     getUserList();
@@ -78,10 +88,27 @@ const UserList = () => {
                 </thead>
                 <tbody>
                   {(!error && resdata?.length) ? (resdata?.map((row, i) => {
-                    return <tr key={row.id}><td>{i + 1}</td><td>{row?.name}</td><td>{row?.email}</td><td>{row?.createdAt}</td><td><Button variant="primary" onClick={() => handleViewMore(row)}>View More</Button></td></tr>
+                    return <tr key={row._id}><td>{i + 1}</td><td>{row?.name}</td><td>{row?.email}</td><td>{format(row?.createdAt, "dd MMM yyyy")}</td><td><Button variant="primary" onClick={() => handleViewMore(row)}>View More</Button></td></tr>
                   })) : (<><tr><td>No data or Something went wrong!</td></tr></>)}
                 </tbody>
               </Table>
+              <ReactPaginate
+                previousLabel={"«"}
+                nextLabel={"»"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={3}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination justify-content-center mt-3"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                activeClassName={"active"}
+              />
             </div>
           </div>
         </div>

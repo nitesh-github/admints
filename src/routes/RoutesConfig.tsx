@@ -8,6 +8,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import UserList from '../pages/users/UserList';
 import NotFound from '../pages/404';
 import UploadUserCsv from '../pages/users/UploadUserCsv';
+import ProductList from '../pages/products/ProductList';
 const RoutesConfig = () => {
   return (
     <Routes>
@@ -50,6 +51,15 @@ const RoutesConfig = () => {
         element={
           <ProtectedRoute>
             <UploadUserCsv />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/products"
+        element={
+          <ProtectedRoute>
+            <ProductList />
           </ProtectedRoute>
         }
       />

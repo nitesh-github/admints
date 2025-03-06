@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 interface User {
-    id: number;
+    _id: string;
     name: string;
     email: string;
   }

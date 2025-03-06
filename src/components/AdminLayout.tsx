@@ -14,7 +14,7 @@ const AdminLayout: React.FC<AdminLayoutClassProps> = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector((state:RootState) => state.auth.user);
+    const user = useSelector((state: RootState) => state.auth.user);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -23,7 +23,7 @@ const AdminLayout: React.FC<AdminLayoutClassProps> = ({ children }) => {
     const handleLogout = () => {
         dispatch(logout());
         navigate('/login');
-      };
+    };
 
     return (
         <>
@@ -74,22 +74,22 @@ const AdminLayout: React.FC<AdminLayoutClassProps> = ({ children }) => {
                 <div className="row">
                     <Sidebar />
                     <main className="col-md-9 offset-md-3 col-lg-10 offset-lg-2 px-md-4 py-4">
-                    {children}
-                    <footer className="pt-5 d-flex justify-content-between">
-    <span>Copyright © 2019-2020 <a href="https://themesberg.com">Themesberg</a></span>
-    <ul className="nav m-0">
-        <li className="nav-item">
-            <Link className="nav-link text-secondary" to="#">Privacy Policy</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link text-secondary" to="#">Terms and conditions</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link text-secondary" to="#">Contact</Link>
-        </li>
-    </ul>
-</footer>
-</main>
+                        {children}
+                        <footer className="pt-5 d-flex justify-content-between">
+                            <span>Copyright © 2019-2020 <a href="https://themesberg.com">Themesberg</a></span>
+                            <ul className="nav m-0">
+                                <li className="nav-item">
+                                    <Link className="nav-link text-secondary" to="#">Privacy Policy</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link text-secondary" to="#">Terms and conditions</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link text-secondary" to="#">Contact</Link>
+                                </li>
+                            </ul>
+                        </footer>
+                    </main>
                 </div>
             </div>
         </>

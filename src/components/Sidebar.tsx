@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faFileCsv, faHome, faUser, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faFileCsv, faHome, faUser, faUserPlus, faUsers, 
+  faShop, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar: React.FC = () => {
 
@@ -28,6 +29,17 @@ const Sidebar: React.FC = () => {
                 <span className="ms-2">Create User</span></Link></li>
                 <li><Link className="nav-link" to={`${process.env.REACT_APP_BASE_URL}/upload-user-csv`}> <FontAwesomeIcon icon={faFileCsv}/>
                 <span className="ms-2">Upload User CSV</span></Link></li>
+              </ul>
+            </li>
+
+            <li className="nav-item has-submenu">
+              <Link className="nav-link" to="#" data-bs-toggle="collapse" data-bs-target="#productMenu">
+              <FontAwesomeIcon icon={faShop}/>
+                <span className="ms-2">Products</span>
+                <FontAwesomeIcon icon={faChevronDown} className="ms-2" />
+              </Link>
+              <ul className="submenu collapse" id="productMenu">
+                <li><Link className="nav-link" to={`${process.env.REACT_APP_BASE_URL}/products`}><FontAwesomeIcon icon={faShoppingBag} /> <span className="ms-2">Products</span></Link></li>                
               </ul>
             </li>
           </ul>

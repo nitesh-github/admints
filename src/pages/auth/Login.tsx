@@ -137,7 +137,7 @@ const Login = () => {
                         <Button
                             className="w-100"
                             variant="primary"
-                            type="button"
+                            type="submit"
                             onClick={handleSubmit}
                         >
                             Log In

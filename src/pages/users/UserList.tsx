@@ -1,12 +1,13 @@
 import { Button, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import ViewMore from "./ViewMore";
 import ReactPaginate from "react-paginate";
 import { format } from "date-fns";
+import { setSelectedUserRedux } from "../../store/usersSlice";
 interface User {
   _id: string;
   name: string;
@@ -23,28 +24,35 @@ interface ApiResponse {
 }
 
 const UserList = () => {
-  const [resdata, setData] = useState<User[]>([]);  // For storing fetched data
+  const [resdata, setData] = useState<User[]>([]); // For storing fetched data
   const [error, setError] = useState<string | null>();
   const token = useSelector((state: RootState) => state.auth.token);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setpageCount] = useState(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handlePageClick = (event: { selected: number }) => setCurrentPage(event.selected);
+  const handlePageClick = (event: { selected: number }) =>
+    setCurrentPage(event.selected);
   const getUserList = useCallback(async () => {
     const configHeaders = {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-      }
+      },
     };
     if (!token) {
       setError("Token is missing");
       return;
     }
     try {
-      const response = await axios.get<ApiResponse>(`${process.env.REACT_APP_API_URL}/api/get-user-list?page=${currentPage}&limit=10`, configHeaders);
+      const page = currentPage + 1;
+      const response = await axios.get<ApiResponse>(
+        `${process.env.REACT_APP_API_URL}/api/get-user-list?page=${page}&limit=10`,
+        configHeaders
+      );
       setData(response?.data?.data?.users);
       let totalPageCount = Math.ceil(response?.data?.data?.totalCount / 10);
       setpageCount(totalPageCount);
@@ -63,17 +71,23 @@ const UserList = () => {
   const handleViewMore = (user: User) => {
     setSelectedUser(user);
     setShowModal(true);
-  }
+  };
+
+  const handleEdit = (user: User) => {
+    dispatch(setSelectedUserRedux(user));
+    navigate(`/edit-user/${user?._id}`);
+  };
 
   return (
     <>
-
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
             <Link to="/">Home</Link>
           </li>
-          <li className="breadcrumb-item active" aria-current="page">Overview</li>
+          <li className="breadcrumb-item active" aria-current="page">
+            Overview
+          </li>
         </ol>
       </nav>
 
@@ -84,12 +98,48 @@ const UserList = () => {
             <div className="card-body">
               <Table>
                 <thead>
-                  <tr><th>SNo</th><th>Name</th><th>Email</th><th>Registration Date</th><th>View More</th></tr>
+                  <tr>
+                    <th>SNo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Registration Date</th>
+                    <th>Actions</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  {(!error && resdata?.length) ? (resdata?.map((row, i) => {
-                    return <tr key={row._id}><td>{i + 1}</td><td>{row?.name}</td><td>{row?.email}</td><td>{format(row?.createdAt, "dd MMM yyyy")}</td><td><Button variant="primary" onClick={() => handleViewMore(row)}>View More</Button></td></tr>
-                  })) : (<><tr><td>No data or Something went wrong!</td></tr></>)}
+                  {!error && resdata?.length ? (
+                    resdata?.map((row, i) => {
+                      return (
+                        <tr key={row._id}>
+                          <td>{i + 1}</td>
+                          <td>{row?.name}</td>
+                          <td>{row?.email}</td>
+                          <td>{format(row?.createdAt, "dd MMM yyyy")}</td>
+                          <td>
+                            <Button
+                              variant="primary"
+                              onClick={() => handleViewMore(row)}
+                            >
+                              View More
+                            </Button>
+                            <Button
+                              className="ms-2"
+                              variant="primary"
+                              onClick={() => handleEdit(row)}
+                            >
+                              Edit
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <>
+                      <tr>
+                        <td>No data or Something went wrong!</td>
+                      </tr>
+                    </>
+                  )}
                 </tbody>
               </Table>
               <ReactPaginate
@@ -120,7 +170,6 @@ const UserList = () => {
           user={selectedUser}
         />
       </div>
-
     </>
   );
 };

@@ -47,6 +47,14 @@ const RoutesConfig = () => {
         }
       />
       <Route
+        path="/edit-user/:id"
+        element={
+          <ProtectedRoute>
+            <CreateUser />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/upload-user-csv"
         element={
           <ProtectedRoute>
